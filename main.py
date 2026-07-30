@@ -25,7 +25,9 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
 
+    Shot.containers = (shots, drawable, updatable)
     AsteroidField.containers = (updatable)
     Asteroid.containers = (asteroids, updatable, drawable)
     Player.containers = (updatable, drawable)
@@ -51,6 +53,13 @@ def main():
         
         for d in drawable:
             d.draw(screen)
+
+        for a in asteroids:
+            for s in shots:
+                if CircleShape.collides_with(a, s) == True:
+                    log_event("asteroid_shot")
+                    a.split()
+                    s.kill()
         
 
         pygame.display.flip()
